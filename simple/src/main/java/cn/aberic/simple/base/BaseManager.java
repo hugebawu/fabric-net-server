@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 
 public class BaseManager {
 
@@ -14,7 +15,7 @@ public class BaseManager {
      *
      * @return /WEB-INF/classes/fabric/channel-artifacts/
      */
-    protected String getChannleArtifactsPath(String module) {
+    protected String getChannleArtifactsPath(String module) throws IOException {
         String directorys = BaseManager.class.getClassLoader().getResource("fabric").getFile();
         logger.debug("directorys = " + directorys);
         File directory = new File(directorys);

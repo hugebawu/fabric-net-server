@@ -1,5 +1,7 @@
 package org.hyperledger.fabric.sdk.aberic;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.HFClient;
 import org.hyperledger.fabric.sdk.helper.Utils;
 
@@ -15,7 +17,7 @@ import java.util.Set;
  * @author : Aberic 【2018/5/4 15:59】
  */
 public class OrgManager {
-
+    protected static Logger logger = LogManager.getLogger(OrgManager.class);
     private Map<String, IntermediateOrg> orgMap;
     private String orgName;
 
@@ -199,9 +201,16 @@ public class OrgManager {
         orgMap.get(orgName).setCALocation(httpTLSify(orgMap.get(orgName).openCATLS(), orgMap.get(orgName).getCALocation()));
     }
 
+    /**
+     * @description: 设置IntermediateOrg对象
+     * @param: [orgName]
+     * @return: org.hyperledger.fabric.sdk.aberic.FabricManager
+     * @throw:
+     */
     public FabricManager use(String orgName) throws Exception {
         IntermediateOrg org = orgMap.get(orgName);
         // java.io.tmpdir : C:\Users\aberic\AppData\Local\Temp\
+        logger.debug(System.getProperty("java.io.tmpdir"));
         File storeFile = new File(System.getProperty("java.io.tmpdir") + "/HFCStore" + orgName + ".properties");
         FabricStore fabricStore = new FabricStore(storeFile);
         org.init(fabricStore);

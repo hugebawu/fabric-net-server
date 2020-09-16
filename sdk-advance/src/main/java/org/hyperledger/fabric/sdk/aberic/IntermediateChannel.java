@@ -44,12 +44,14 @@ class IntermediateChannel {
 
     void init(IntermediateOrg org) throws TransactionException, InvalidArgumentException {
         this.org = org;
-        setChannel(org.getClient());
+        HFClient client = org.getClient();
+        setChannel(client);
     }
 
     private void setChannel(HFClient client) throws InvalidArgumentException, TransactionException {
 //        client.setUserContext(org.getUser(org.getUsername()));
-        client.setUserContext(org.getUser("Admin"));
+        User userContext = org.getUser("Admin");
+        client.setUserContext(userContext);
         channel = client.newChannel(channelName);
         log.debug("Get Chain " + channelName);
 
