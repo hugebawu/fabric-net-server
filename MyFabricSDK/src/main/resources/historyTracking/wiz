@@ -89,7 +89,7 @@ if [ "$CMD" = "net" ];then
 
   if [ "$2" = "start" ];then
     PWD=`pwd`
-	  cd $NETWORK
+    cd $NETWORK
     pwd
     ../scripts/start-network.sh
     cd $PWD
@@ -110,10 +110,10 @@ if [ "$CMD" = "cc" ];then
 
   if [ "$2"="start" ];then
     PWD=`pwd`
-    echo $PWD
     cd $CHAINCODE
+    pwd
     ./start.sh
-    cd PWD
+    cd $PWD
     exit 0
   fi
 

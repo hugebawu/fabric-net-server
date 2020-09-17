@@ -21,14 +21,14 @@ import java.util.Properties;
  */
 class FabricStore {
 
-    private String file;
+    private String filepath;
     /**
      * 用户信息集合
      */
     private final Map<String, IntermediateUser> members = new HashMap<>();
 
     FabricStore(File file) {
-        this.file = file.getAbsolutePath();
+        this.filepath = file.getAbsolutePath();
     }
 
     /**
@@ -39,7 +39,7 @@ class FabricStore {
      */
     void setValue(String name, String value) {
         Properties properties = loadProperties();
-        try (OutputStream output = new FileOutputStream(file)) {
+        try (OutputStream output = new FileOutputStream(filepath)) {
             properties.setProperty(name, value);
             properties.store(output, "");
         } catch (IOException e) {
@@ -65,12 +65,12 @@ class FabricStore {
      */
     private Properties loadProperties() {
         Properties properties = new Properties();
-        try (InputStream input = new FileInputStream(file)) {
+        try (InputStream input = new FileInputStream(filepath)) {
             properties.load(input);
         } catch (FileNotFoundException e) {
-            System.out.println(String.format("Could not find the file \"%s\"", file));
+            System.out.println(String.format("Could not find the file \"%s\"", filepath));
         } catch (IOException e) {
-            System.out.println(String.format("Could not load keyvalue store from file \"%s\", reason:%s", file, e.getMessage()));
+            System.out.println(String.format("Could not load keyvalue store from file \"%s\", reason:%s", filepath, e.getMessage()));
         }
         return properties;
     }

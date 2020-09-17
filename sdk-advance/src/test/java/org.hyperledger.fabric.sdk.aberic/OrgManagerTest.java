@@ -85,7 +85,7 @@ public class OrgManagerTest {
                 .setOrderers("example.com")
                 .addOrderer("orderer.example.com","grpc://127.0.0.1:7050")
                 .setChannel("mychannel")
-                .setChainCode("mycc","opt/gopath/","github.com/hyperledger/fabric/examples/chaincode/go/example02","1.0",9000,120)
+                .setChainCode("mycc","opt/gopath/","github.com/hyperledger/fabric/examples/chaincode/go/example02/cmd","1.0",9000,120)
                 .openTLS(true)
                 .openCATLS(false)
                 .setBlockListener(map -> {
@@ -103,8 +103,6 @@ public class OrgManagerTest {
      */
     protected String getChannleArtifactsPath(String module) throws IOException {
         /*String directorys = OrgManager.class.getClassLoader().getResource("fabric").getFile();
-        logger.debug(FabricManager.class.getClassLoader().getResources(""));
-        logger.debug(FabricManager.class.getClassLoader().getResources("/"));
         logger.debug("directorys = " + directorys);
         File directory = new File(directorys);
         logger.debug("directory = " + directory.getPath());
@@ -119,9 +117,7 @@ public class OrgManagerTest {
      * @return /WEB-INF/classes/fabric/crypto-config/
      */
     protected String getCryptoConfigPath(String module) {
-        /*logger.debug(OrgManager.class.getResource("/"));
-        logger.debug(OrgManager.class.getResource(""));
-        String directorys = OrgManager.class.getClassLoader().getResource("fabric").getFile();
+        /*String directorys = OrgManager.class.getClassLoader().getResource("fabric").getFile();
         logger.debug("directorys = " + directorys);
         File directory = new File(directorys);
         logger.debug("directory = " + directory.getPath());
