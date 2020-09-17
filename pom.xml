@@ -10,6 +10,7 @@
   <modules>
     <module>sdk-advance</module>
     <module>simple</module>
+    <module>MyFabricSDK</module>
   </modules>
   <packaging>pom</packaging>
 

@@ -1,0 +1,11 @@
+src/main/java/cn/edu/ncepu/historyTracking/application/.gradle/
+src/main/java/cn/edu/ncepu/historyTracking/application/build/
+
+src/main/java/cn/edu/ncepu/historyTracking/chaincode/.gradle
+src/main/java/cn/edu/ncepu/historyTracking/chaincode/build
+
+src/main/java/cn/edu/ncepu/historyTracking/network/artifact/
+src/main/java/cn/edu/ncepu/historyTracking/network/crypto-config/
+src/main/java/cn/edu/ncepu/historyTracking/network/data/
+
+

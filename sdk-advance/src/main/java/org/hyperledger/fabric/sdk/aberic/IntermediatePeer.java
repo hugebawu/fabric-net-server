@@ -8,14 +8,14 @@ package org.hyperledger.fabric.sdk.aberic;
 class IntermediatePeer {
 
 
-    /** 当前指定的组织节点域名 */
+    /** 当前指定的peer节点域名 */
     private String peerName; // peer0.org1.example.com
-    /** 当前指定的组织节点事件域名 */
+    /** 当前指定的peer节点事件域名 */
     private String peerEventHubName; // peer0.org1.example.com
-    /** 当前指定的组织节点访问地址 */
-    private String peerLocation; // grpc://110.131.116.21:7051
-    /** 当前指定的组织节点事件监听访问地址 */
-    private String peerEventHubLocation; // grpc://110.131.116.21:7053
+    /** 当前指定的peer节点访问地址 */
+    private String peerLocation; // grpc://127.0.0.1:7051
+    /** 当前指定的peer节点事件监听访问地址 */
+    private String peerEventHubLocation; // grpc://127.0.0.1:7053
     /** 当前peer是否增加Event事件处理 */
     private boolean addEventHub;
 
@@ -37,7 +37,7 @@ class IntermediatePeer {
     }
 
     /**
-     * 设置组织节点访问地址（grpc://110.131.116.21:7051）
+     * 设置peer节点访问地址（grpc://127.0.0.1:7051）
      *
      * @param peerLocation 组织节点访问地址
      */
@@ -46,7 +46,7 @@ class IntermediatePeer {
     }
 
     /**
-     * 设置组织节点事件监听访问地址（grpc://110.131.116.21:7053）
+     * 设置peer节点事件监听访问地址（grpc://127.0.0.1:7053）
      *
      * @param peerEventHubLocation 组织节点事件监听访问地址
      */
@@ -55,7 +55,7 @@ class IntermediatePeer {
     }
 
     /**
-     * 获取组织节点域名（peer0.org1.example.com）
+     * 获取peer节点域名（peer0.org1.example.com）
      *
      * @return 组织节点域名
      */
@@ -64,7 +64,7 @@ class IntermediatePeer {
     }
 
     /**
-     * 获取组织节点事件域名（peer0.org1.example.com）
+     * 获取peer节点事件域名（peer0.org1.example.com）
      *
      * @return 组织节点事件域名（peer0.org1.example.com）
      */
@@ -73,18 +73,18 @@ class IntermediatePeer {
     }
 
     /**
-     * 获取组织节点访问地址（grpc://110.131.116.21:7051）
+     * 获取peer节点访问地址（grpc://127.0.0.1:7051）
      *
-     * @return 组织节点访问地址（grpc://110.131.116.21:7051）
+     * @return 组织节点访问地址（grpc://127.0.0.1:7051）
      */
     String getPeerLocation() {
         return peerLocation;
     }
 
     /**
-     * 获取组织节点事件监听访问地址（grpc://110.131.116.21:7053）
+     * 获取peer节点事件监听访问地址（grpc://127.0.0.1:7053）
      *
-     * @return 组织节点事件监听访问地址（grpc://110.131.116.21:7053）
+     * @return peer节点事件监听访问地址（grpc://127.0.0.1:7053）
      */
     String getPeerEventHubLocation() {
         return peerEventHubLocation;

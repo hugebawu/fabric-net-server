@@ -31,7 +31,7 @@ class IntermediateChaincodeID {
     /** 可能是包含智能合约的go环境路径 */
     private String chaincodeSource; // /opt/gopath
     /** 智能合约安装路径 */
-    private String chaincodePath; // github.com/hyperledger/fabric/xxx/chaincode/go/example/test
+    private String chaincodePath; // github.com/hyperledger/fabric/examples/chaincode/go/example/test
     /** 智能合约版本号 */
     private String chaincodeVersion; // 1.0
     /** 指定ID的智能合约 */

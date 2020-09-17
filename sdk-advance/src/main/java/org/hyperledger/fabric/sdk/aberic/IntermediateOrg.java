@@ -44,7 +44,7 @@ class IntermediateOrg {
     private String orgMSPID;
     /** 当前指定的组织所在根域名，如：org1.example.com */
     private String orgDomainName;
-    /** orderer 排序服务器集合 */
+    /** peer 服务器集合 */
     private List<IntermediatePeer> peers = new LinkedList<>();
 
     /** 是否开启TLS访问 */

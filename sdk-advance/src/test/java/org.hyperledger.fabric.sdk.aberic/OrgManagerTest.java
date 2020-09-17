@@ -29,11 +29,11 @@ public class OrgManagerTest {
         json.put("fcn","query");
         JSONArray arg = new JSONArray();
         arg.put(0,"a");
-        arg.put(1,"b");
-        json.put("arg",arg);
+//        arg.put(1,"b");
+        json.put("Args",arg);
         logger.debug(json.toString());
         String fcn = json.getString("fcn");
-        JSONArray arrayJson = json.getJSONArray("arg");
+        JSONArray arrayJson = json.getJSONArray("Args");
         Map<String, String> resultMap;
         int length = arrayJson.length();
         String[] argArray = new String[length];
@@ -85,7 +85,7 @@ public class OrgManagerTest {
                 .setOrderers("example.com")
                 .addOrderer("orderer.example.com","grpc://127.0.0.1:7050")
                 .setChannel("mychannel")
-                .setChainCode("mycc","opt/gopath/src/","github.com/hyperledger/fabric/examples/chaincode/go/example02/cmd","1.0",9000,120)
+                .setChainCode("mycc","opt/gopath/","github.com/hyperledger/fabric/examples/chaincode/go/example02","1.0",9000,120)
                 .openTLS(true)
                 .openCATLS(false)
                 .setBlockListener(map -> {
