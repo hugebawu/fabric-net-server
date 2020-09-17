@@ -10,7 +10,8 @@ if [ ! -d $ARTIFACT ];then
   mkdir $ARTIFACT
 fi
 
-PROJECT=`dirname $PWD`
+#PROJECT=`dirname $PWD`
+PROJECT=/root/Documents/idea-workspace/fabric-net-server/MyFabricSDK/src/main/java/cn/edu/ncepu/historyTracking/
 CHANNEL=ch1
 CHAINCODE=wizcc
 ORDERER=127.0.0.1:7050
@@ -20,7 +21,7 @@ MSPID=Org1MSP
   
 init_channel(){
   configtxgen -outputCreateChannelTx ${ARTIFACT}/${CHANNEL}.tx -profile DefaultChannel -channelID ${CHANNEL} 
-  
+
   CORE_PEER_MSPCONFIGPATH=${MSPDIR} \
   CORE_PEER_LOCALMSPID=${MSPID}  \
   CORE_PEER_ADDRESS=${PEER} \

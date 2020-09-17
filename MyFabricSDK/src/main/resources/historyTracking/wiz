@@ -21,10 +21,13 @@ echo "----------------------------------------------------------------------"
 # 被“倒引号”括起来表示里面需要执行的是命令
 WIZ_HOME=`dirname $0`
 echo $WIZ_HOME
-NETWORK_TEMPLATE=${WIZ_HOME}/network/ # $表示{}内的是变量
-CHAINCODE_TEMPLATE=${WIZ_HOME}/chaincode
-APPLICATION_TEMPLATE=${WIZ_HOME}/application
-SCRIPTS_TEMPLATE=${WIZ_HOME}/scripts
+MAIN_HOME=/root/Documents/idea-workspace/fabric-net-server/MyFabricSDK/src/main
+
+CHAINCODE=${MAIN_HOME}/java/cn/edu/ncepu/historyTracking/chaincode
+APPLICATION=${MAIN_HOME}/java/cn/edu/ncepu/historyTracking/application
+
+NETWORK=${MAIN_HOME}/resources/historyTracking/network # $表示{}内的是变量
+SCRIPTS=${MAIN_HOME}/resources/historyTracking/scripts
 
 
 list_commands(){
@@ -42,22 +45,6 @@ list_commands(){
   echo "        start: start application"
   echo "    admin: administrator shell"
   echo "    stop: stop all wiz processes"
-}
-
-init_project_directory(){
-  # $( ) 与` ` (反引号) 都是用来做命令替换用(command substitution)的。
-  if [ "$(ls -A .)" ];then # 判断目录下是否已经有文件或目录存在，-A 同 -a ，但不列出 "." (目前目录) 及 ".." (父目录)
-    echo "ERROR: project directory is not empty!"
-    return 
-  fi
-  
-  echo "generating project skeleton..."
-  cp -r ${NETWORK_TEMPLATE} network # 若给出的源文件是一个目录文件，此时将复制该目录下所有的子目录和文件。
-  cp -r ${CHAINCODE_TEMPLATE} chaincode
-  cp -r ${APPLICATION_TEMPLATE} application
-  cp -r ${SCRIPTS_TEMPLATE} scripts
-  echo "1.0.0" > wiz.version
-  echo "done."
 }
 
 assert_project_directory(){
@@ -80,12 +67,6 @@ if [ "$CMD" = "help" ];then
   exit 0
 fi
 
-if [ "$CMD" = "init" ];then
-  echo "Initialize project directory..."
-  init_project_directory
-  exit 0
-fi
-
 if [ "$CMD" = "net" ];then
   if [ $# -lt 2 ];then
     echo "USAGE: wiz net start|reset"
@@ -95,21 +76,23 @@ if [ "$CMD" = "net" ];then
   assert_project_directory
   
   if [ "$2" = "reset" ];then
-    cd network
+    PWD=`pwd`
+    cd $NETWORK
     rm -rf crypto-config
     rm -rf data
     rm -rf log
     cryptogen generate --config=crypto-config.yaml
-    cd ..
+    cd $PWD
     echo "network reset."
     exit 0
   fi
 
   if [ "$2" = "start" ];then
-	cd network
+    PWD=`pwd`
+	  cd $NETWORK
     pwd
     ../scripts/start-network.sh
-    cd ..
+    cd $PWD
     exit 0
   fi
   
@@ -126,9 +109,11 @@ if [ "$CMD" = "cc" ];then
   assert_project_directory
 
   if [ "$2"="start" ];then
-    cd chaincode
+    PWD=`pwd`
+    echo $PWD
+    cd $CHAINCODE
     ./start.sh
-    cd ..
+    cd PWD
     exit 0
   fi
 
@@ -144,10 +129,11 @@ if [ "$CMD" = "ch" ];then
 
   assert_project_directory
 
-  if [ "$2"="start" ];then
-    cd network
+  if [ "$2" = "start" ];then
+    PWD=`pwd`
+    cd $NETWORK
     ../scripts/start-channel.sh
-    cd ..
+    cd $PWD
     exit 0
   fi
 
@@ -163,10 +149,11 @@ if [ "$CMD" = "app" ];then
 
   assert_project_directory
 
-  if [ "$2"="start" ];then
-    cd application
+  if [ "$2" = "start" ];then
+    PWD=`pwd`
+    cd $APPLICATION
     ./start.sh
-    cd ..
+    cd $PWD
     exit 0
   fi
 
@@ -176,9 +163,10 @@ fi
 
 if [ "$CMD" = "admin" ];then
   assert_project_directory
-  cd network
+  PWD=`pwd`
+  cd $NETWORK
   ../scripts/admin-shell.sh
-  cd ..
+  cd $PWD
   exit 0
 fi
 

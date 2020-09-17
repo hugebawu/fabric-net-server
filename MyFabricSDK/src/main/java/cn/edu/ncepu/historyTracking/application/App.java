@@ -1,6 +1,8 @@
 package cn.edu.ncepu.historyTracking.application;
 
 import cn.edu.ncepu.historyTracking.application.LocalUser;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.User;
 import org.hyperledger.fabric.sdk.HFClient;
 import org.hyperledger.fabric.sdk.Channel;
@@ -13,33 +15,74 @@ import org.hyperledger.fabric.sdk.ProposalResponse;
 import org.hyperledger.fabric.sdk.TransactionProposalRequest;
 import org.hyperledger.fabric.sdk.BlockEvent.TransactionEvent;
 
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.io.File;
 import java.lang.System;
 
 public class App{
+  protected static Logger logger = LogManager.getLogger(App.class);
+
   private User user;
   private HFClient client;
   private Channel channel;
   
   public User loadUser(String name,String mspId) throws Exception{
-    String mspDir = "../network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/";
+    String networkPath = this.getClass().getClassLoader().getResource("historyTracking").getFile()+"/network"; // 定位resources文件夹下的文件路径
+    logger.debug(networkPath);
+    File keystore = Paths.get(networkPath, "crypto-config","/peerOrganizations/org1.example.com", String.format("/users/%s@%s/msp/keystore", "Admin", "org1.example.com")).toFile();
+    File keyFile = findFileSk(keystore); // 查找keystore路径下的以_sk结尾的文件
+    if(null == keyFile ){
+      throw new Exception("no secret key found");
+    }
+    String keyFileName = keystore.getPath() + "/" + keyFile.getName();
 
-    File keystore = new File(mspDir + "keystore");
-    File[] keyFiles = keystore.listFiles();
-    if(keyFiles.length == 0 ) throw new Exception("no key found");
-    String keyFileName = mspDir + "keystore/" + keyFiles[0].getName();
-    
-    File certstore = new File(mspDir + "signcerts");
-    File[] certFiles = certstore.listFiles();
-    if(certFiles.length == 0 ) throw new Exception("no cert found");
-    String certFileName = mspDir + "signcerts/" + certFiles[0].getName();
+    File signCerts = Paths.get(networkPath, "crypto-config","/peerOrganizations/org1.example.com", String.format("/users/%s@%s/msp/signcerts", "Admin", "org1.example.com")).toFile();
+    logger.debug(signCerts.getPath());
+    File certFiles = findFileCert(signCerts);
+    if(null == certFiles)
+      throw new Exception("no signature cert found");
+    String certFileName = signCerts.getPath() + "/" + certFiles.getName();
     
     this.user = new LocalUser(name,mspId,keyFileName,certFileName);
     return this.user;
   }
-  
+
+  /**
+   * 从指定路径中获取后缀为 _sk 的文件，且该路径下有且仅有该文件
+   *
+   * @param directory 指定路径
+   * @return File
+   */
+  private File findFileSk(File directory) {
+    File[] matches = directory.listFiles((dir, name) -> name.endsWith("_sk"));
+    if (null == matches) {
+      throw new RuntimeException(String.format("Matches returned null, does %s directory exist?", directory.getAbsoluteFile().getName()));
+    }
+    if (matches.length != 1) {
+      throw new RuntimeException(String.format("Expected in %s only 1 sk file, but found %d", directory.getAbsoluteFile().getName(), matches.length));
+    }
+    return matches[0];
+  }
+
+  /**
+   * 从指定路径中获取后缀为 .pem 的文件，且该路径下有且仅有该文件
+   *
+   * @param directory 指定路径
+   * @return File
+   */
+  private File findFileCert(File directory) {
+    File[] matches = directory.listFiles((dir, name) -> name.endsWith(".pem"));
+    if (null == matches) {
+      throw new RuntimeException(String.format("Matches returned null, does %s directory exist?", directory.getAbsoluteFile().getName()));
+    }
+    if (matches.length != 1) {
+      throw new RuntimeException(String.format("Expected in %s only 1 pem file, but found %d", directory.getAbsoluteFile().getName(), matches.length));
+    }
+    return matches[0];
+  }
+
   public void initChannel() throws Exception{
     if(this.user == null) throw new Exception("user not loaded");
     
