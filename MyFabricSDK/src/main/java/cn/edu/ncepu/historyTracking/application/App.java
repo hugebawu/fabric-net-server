@@ -1,25 +1,22 @@
 package cn.edu.ncepu.historyTracking.application;
 
-import cn.edu.ncepu.historyTracking.application.LocalUser;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hyperledger.fabric.sdk.User;
-import org.hyperledger.fabric.sdk.HFClient;
-import org.hyperledger.fabric.sdk.Channel;
-import org.hyperledger.fabric.sdk.Peer;
-import org.hyperledger.fabric.sdk.Orderer;
-import org.hyperledger.fabric.sdk.security.CryptoSuite;
-import org.hyperledger.fabric.sdk.ChaincodeID;
-import org.hyperledger.fabric.sdk.QueryByChaincodeRequest;
-import org.hyperledger.fabric.sdk.ProposalResponse;
-import org.hyperledger.fabric.sdk.TransactionProposalRequest;
 import org.hyperledger.fabric.sdk.BlockEvent.TransactionEvent;
+import org.hyperledger.fabric.sdk.ChaincodeID;
+import org.hyperledger.fabric.sdk.Channel;
+import org.hyperledger.fabric.sdk.HFClient;
+import org.hyperledger.fabric.sdk.Orderer;
+import org.hyperledger.fabric.sdk.Peer;
+import org.hyperledger.fabric.sdk.ProposalResponse;
+import org.hyperledger.fabric.sdk.QueryByChaincodeRequest;
+import org.hyperledger.fabric.sdk.TransactionProposalRequest;
+import org.hyperledger.fabric.sdk.User;
+import org.hyperledger.fabric.sdk.security.CryptoSuite;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
-import java.io.File;
-import java.lang.System;
 
 public class App{
   protected static Logger logger = LogManager.getLogger(App.class);
@@ -104,7 +101,7 @@ public class App{
   public void query(String ccname,String fcn,String...args) throws Exception{
     System.out.format("query %s %s...\n",ccname,fcn);
     
-    QueryByChaincodeRequest req = this.client.newQueryProposalRequest();    
+    QueryByChaincodeRequest req = this.client.newQueryProposalRequest();
     ChaincodeID cid = ChaincodeID.newBuilder().setName(ccname).build();
     req.setChaincodeID(cid);
     req.setFcn(fcn);
@@ -122,7 +119,7 @@ public class App{
   public void invoke(String ccname,String fcn,String... args) throws Exception{
     System.out.format("invoke %s %s...\n",ccname,fcn);
     
-    TransactionProposalRequest req = this.client.newTransactionProposalRequest();   
+    TransactionProposalRequest req = this.client.newTransactionProposalRequest();
     ChaincodeID cid = ChaincodeID.newBuilder().setName(ccname).build();    
     req.setChaincodeID(cid);
     req.setFcn(fcn);

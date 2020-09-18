@@ -12,12 +12,19 @@ open resource/historyTracking folder in terminal 2
 
 $ `./wiz cc start`
 
+Attention! the chaincode can also be run as:
+
+run src/main/java/cn/edu/ncepu/historyTracking/chaincode
+
 ### Terminal 3 start channel
 open resource/historyTracking folder in terminal 3
 
 $ `./wiz ch start`
 
 ### run app
+$ `./wiz ch start`
+
+or
 
 run src/main/java/cn.edu.ncepu.historyTracking/application/App.java
 

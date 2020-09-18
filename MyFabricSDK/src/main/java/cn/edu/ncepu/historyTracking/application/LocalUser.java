@@ -1,15 +1,14 @@
 package cn.edu.ncepu.historyTracking.application;
 
-import org.hyperledger.fabric.sdk.User;
 import org.hyperledger.fabric.sdk.Enrollment;
-import org.hyperledger.fabric.sdk.security.CryptoSuite;
-import org.hyperledger.fabric.sdk.security.CryptoPrimitives;
+import org.hyperledger.fabric.sdk.User;
 import org.hyperledger.fabric.sdk.identity.X509Enrollment;
+import org.hyperledger.fabric.sdk.security.CryptoPrimitives;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Set;
 import java.security.PrivateKey;
+import java.util.Set;
 
 public class LocalUser implements User{
   private String name;
@@ -21,7 +20,7 @@ public class LocalUser implements User{
     this.mspid = mspid;
     this.enrollment = getEnrollment(keyFile,certFile);
   }
-  
+
   private Enrollment getEnrollment(String keyFile,String certFile) throws Exception{
     byte[] keyPem = Files.readAllBytes(Paths.get(keyFile));
     byte[] certPem = Files.readAllBytes(Paths.get(certFile));
