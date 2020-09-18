@@ -1,0 +1,4 @@
+src/main/resources/e2e_cli/channel-artifacts/
+src/main/resources/e2e_cli/crypto-config/
+
+src/main/resources/e2e_cli/docker-compose-e2e.yaml
