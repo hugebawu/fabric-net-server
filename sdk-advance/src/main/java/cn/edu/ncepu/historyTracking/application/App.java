@@ -82,23 +82,20 @@ public class App{
 
   public void initChannel() throws Exception{
     if(this.user == null) throw new Exception("user not loaded");
+
+    this.client = HFClient.createNewInstance();
+    this.client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
+    this.client.setUserContext(this.user);
     
-    HFClient client = HFClient.createNewInstance();
-    client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
-    client.setUserContext(this.user);
-    
-    Channel channel = client.newChannel("ch1");
-    Peer peer = client.newPeer("peer1","grpc://127.0.0.1:7051");
-    channel.addPeer(peer);
-    Orderer orderer = client.newOrderer("orderer1","grpc://127.0.0.1:7050");
-    channel.addOrderer(orderer);
-    channel.initialize();
-    
-    this.channel = channel;
-    this.client = client;
+    this.channel = this.client.newChannel("ch1");
+    Peer peer = this.client.newPeer("peer0","grpc://127.0.0.1:7051");
+    this.channel.addPeer(peer);
+    Orderer orderer = this.client.newOrderer("orderer1","grpc://127.0.0.1:7050");
+    this.channel.addOrderer(orderer);
+    this.channel.initialize();
   }
 
-  public void query(String ccname,String fcn,String...args) throws Exception{
+  public void query(String ccname, String fcn,String...args) throws Exception{
     System.out.format("query %s %s...\n",ccname,fcn);
     
     QueryByChaincodeRequest req = this.client.newQueryProposalRequest();
@@ -110,14 +107,14 @@ public class App{
     Collection<ProposalResponse> rspc = channel.queryByChaincode(req);
     
     for(ProposalResponse rsp: rspc){
-      System.out.format("status: %d \n",rsp.getStatus().getStatus());
-      System.out.format("message: %s\n",rsp.getMessage());
-      System.out.format("payload: %s\n",rsp.getProposalResponse().getResponse().getPayload().toStringUtf8());
+      logger.info(String.format("status: %d \n",rsp.getStatus().getStatus()));
+      logger.info(String.format("message: %s\n",rsp.getMessage()));
+      logger.info(String.format("payload: %s\n",rsp.getProposalResponse().getResponse().getPayload().toStringUtf8()));
     }
   }
   
   public void invoke(String ccname,String fcn,String... args) throws Exception{
-    System.out.format("invoke %s %s...\n",ccname,fcn);
+    logger.info(String.format("invoke %s %s...\n",ccname,fcn));
     
     TransactionProposalRequest req = this.client.newTransactionProposalRequest();
     ChaincodeID cid = ChaincodeID.newBuilder().setName(ccname).build();    
@@ -128,23 +125,29 @@ public class App{
     Collection<ProposalResponse> rspc = channel.sendTransactionProposal(req);
     TransactionEvent event = channel.sendTransaction(rspc).get();
 
-    System.out.format("txid: %s\n", event.getTransactionID());
-    System.out.format("valid: %b\n", event.isValid());    
+    logger.info(String.format("txid: %s\n", event.getTransactionID()));
+    logger.info(String.format("valid: %b\n", event.isValid()));
   }
   
   public void start() throws Exception{
     loadUser("admin","Org1MSP");
     initChannel();
 
-    String id = "12345";
+    query("wizcc","value","a");
+    invoke("wizcc","inc","b","10");
+    query("wizcc","value","b");
+
+    query("wizcc","getAssetHistory","b");
+
+    /*String id = "12345";
     invoke("wizcc","createAsset",id,"Tommy","a necklace");
     query("wizcc","getAsset",id);
     invoke("wizcc","transferAsset",id,"Mary");
-    query("wizcc","getAssetHistory",id);
+    query("wizcc","getAssetHistory",id);*/
   }
   
   public static void main(String[] args) throws Exception{
-    System.out.println("wiz dapp");
+    logger.info(String.format("wiz dapp"));
     new App().start();         
   }
 }

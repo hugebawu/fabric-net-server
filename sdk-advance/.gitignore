@@ -2,3 +2,6 @@ src/main/resources/historyTracking/network/artifact/
 src/main/resources/historyTracking/network/crypto-config/
 src/main/resources/historyTracking/network/data/
 src/main/resources/historyTracking/network/log/
+
+src/main/java/cn/edu/ncepu/historyTracking/chaincode/.gradle/
+src/main/java/cn/edu/ncepu/historyTracking/application/.gradle/

@@ -14,10 +14,6 @@ and put it in sdk-advance/src/main/resources.
 
 pay attention to:
  
-the $PROJECT path in the start-channel.sh
-
-and 
-
-the MAIN_HOME path in the wiz
+the $PROJECT path in the start-channel.sh and the MAIN_HOME path in the wiz
 
 
