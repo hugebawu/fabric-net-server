@@ -98,9 +98,9 @@ public class e2ecliApp {
 
     private void initChannel() throws InvalidArgumentException, TransactionException {
         this.channel = this.client.newChannel("mychannel");
-        Peer peer = this.client.newPeer("peer0", "grpc://127.0.0.1:7051");
+        Peer peer = this.client.newPeer("peer0", "grpc://172.28.0.14:7051");
         this.channel.addPeer(peer);
-        Orderer orderer = this.client.newOrderer("orderer", "grpc://127.0.0.1:7050");
+        Orderer orderer = this.client.newOrderer("orderer", "grpc://172.28.0.14:7050");
         this.channel.addOrderer(orderer);
         this.channel.initialize();
     }
@@ -109,7 +109,7 @@ public class e2ecliApp {
         logger.info(String.format("query %s %s", ccName,fcn));
 
         QueryByChaincodeRequest req = this.client.newQueryProposalRequest();
-        ChaincodeID cid = ChaincodeID.newBuilder().setName(ccName).build();
+        ChaincodeID cid = ChaincodeID.newBuilder().setName(ccName).setVersion("1.0").build();
         req.setChaincodeID(cid);
         req.setFcn(fcn);
         req.setArgs(args);
@@ -126,7 +126,7 @@ public class e2ecliApp {
         loadUser("admin", "Org1MSP");
         initClient();
         initChannel();
-        query("mycc", "query", "query","a");
+        query("mycc", "query", "a");
     }
 
     public static void main(String[] args) throws Exception {
