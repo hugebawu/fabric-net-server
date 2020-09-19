@@ -12,6 +12,12 @@ It works!
 To furthermore develop fabric java app, I have revised the paths in the config files of e2e_cli,
 and put it in sdk-advance/src/main/resources.
 
+pay attention to:
+ 
+the $PROJECT path in the start-channel.sh
 
+and 
+
+the MAIN_HOME path in the wiz
 
 

@@ -22,7 +22,7 @@ open resource/historyTracking folder in terminal 3
 $ `./wiz ch start`
 
 ### run app
-$ `./wiz ch start`
+$ `./wiz app start` # encounter with problems, remains to solve
 
 or
 
