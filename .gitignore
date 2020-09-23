@@ -14,3 +14,4 @@ buildNumber.properties
 *.iml
 sdk-advance/*.iml
 simple/simple.iml
+logs/
